@@ -1,26 +1,153 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-outfit);
+  --font-mono: var(--font-jetbrains);
+  --color-bg-primary: #0a0e1a;
+  --color-bg-secondary: #0d1525;
+  --color-bg-glass: rgba(15, 23, 42, 0.6);
+  --color-border-glow: rgba(99, 179, 237, 0.2);
+  --color-border-subtle: rgba(99, 179, 237, 0.08);
+  --color-text-primary: #f7fafc;
+  --color-text-secondary: #cbd5e0;
+  --color-text-muted: rgba(160, 174, 192, 0.7);
+  --color-accent-blue: #63b3ed;
+  --color-accent-blue-dark: #3182ce;
+  --color-accent-green: #48bb78;
+  --color-accent-orange: #ed8936;
+  --color-accent-purple: #9f7aea;
+  --color-accent-red: #fc8181;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --bg-primary: #0a0e1a;
+  --bg-secondary: #0d1525;
+  --bg-glass: rgba(15, 23, 42, 0.6);
+  --border-glow: rgba(99, 179, 237, 0.2);
+  --border-subtle: rgba(99, 179, 237, 0.08);
+  --text-primary: #f7fafc;
+  --text-secondary: #cbd5e0;
+  --text-muted: rgba(160, 174, 192, 0.7);
+  --accent-blue: #63b3ed;
+  --accent-blue-dark: #3182ce;
+  --accent-green: #48bb78;
+  --accent-orange: #ed8936;
+  --glass-blur: 20px;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-outfit), system-ui, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Glassmorphism */
+.glass {
+  background: var(--bg-glass);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--border-glow);
+  border-radius: 16px;
+}
+
+.glass-subtle {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+}
+
+/* Orb animation */
+@keyframes orb-pulse {
+  0%, 100% {
+    box-shadow: 0 0 30px rgba(99, 179, 237, 0.3), 0 0 60px rgba(99, 179, 237, 0.1), inset 0 0 30px rgba(99, 179, 237, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 50px rgba(99, 179, 237, 0.5), 0 0 100px rgba(99, 179, 237, 0.2), inset 0 0 50px rgba(99, 179, 237, 0.3);
+  }
+}
+
+.orb {
+  animation: orb-pulse 3s ease-in-out infinite;
+}
+
+/* AI cursor blink */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ai-cursor::after {
+  content: '▊';
+  animation: cursor-blink 0.8s step-end infinite;
+  color: var(--accent-blue);
+  margin-left: 2px;
+}
+
+/* Voice pulse */
+@keyframes voice-pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+.voice-pulse {
+  animation: voice-pulse 1.5s ease-out infinite;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 179, 237, 0.2);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 179, 237, 0.4);
+}
+
+/* Loading spinner */
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-slow 2s linear infinite;
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #63b3ed, #9f7aea, #ed8936);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Progress bar animation */
+@keyframes progress-indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(400%); }
+}
+.progress-bar {
+  animation: progress-indeterminate 1.5s ease-in-out infinite;
+}
+
+/* Live dot pulse */
+@keyframes live-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.live-dot {
+  animation: live-pulse 2s ease-in-out infinite;
 }
