@@ -11,9 +11,8 @@ export default function Skeleton({ className = '', lines = 1 }: SkeletonProps) {
       {Array.from({ length: lines }).map((_, i) => (
         <div
           key={i}
-          className="h-4 rounded-lg animate-pulse"
+          className="h-4 rounded-lg skeleton"
           style={{
-            background: 'linear-gradient(90deg, rgba(99,179,237,0.05) 0%, rgba(99,179,237,0.1) 50%, rgba(99,179,237,0.05) 100%)',
             width: i === lines - 1 && lines > 1 ? '60%' : '100%',
           }}
         />
@@ -24,15 +23,41 @@ export default function Skeleton({ className = '', lines = 1 }: SkeletonProps) {
 
 export function ResultSkeleton() {
   return (
-    <div className="space-y-6">
-      {Array.from({ length: 5 }).map((_, i) => (
-        <div key={i} className="glass p-5 space-y-3">
-          <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded-full bg-accent-blue/10 animate-pulse" />
-            <div className="h-3 w-40 rounded bg-accent-blue/10 animate-pulse" />
+    <div className="space-y-4">
+      {/* Stats bar skeleton */}
+      <div className="flex items-center justify-between mb-5">
+        <div className="h-3 w-48 skeleton rounded" />
+        <div className="h-3 w-16 skeleton rounded" />
+      </div>
+
+      {/* AI answer skeleton */}
+      <div className="glass-heavy p-6 space-y-4 gradient-border">
+        <div className="flex items-center gap-3">
+          <div className="w-2 h-2 rounded-full skeleton" />
+          <div className="h-3 w-20 skeleton rounded" />
+          <div className="h-4 w-16 skeleton rounded-md" />
+        </div>
+        <div className="space-y-3 mt-4">
+          <div className="h-3.5 w-full skeleton rounded" />
+          <div className="h-3.5 w-11/12 skeleton rounded" />
+          <div className="h-3.5 w-4/5 skeleton rounded" />
+          <div className="h-3.5 w-9/12 skeleton rounded" />
+        </div>
+      </div>
+
+      {/* Result skeletons */}
+      {Array.from({ length: 4 }).map((_, i) => (
+        <div key={i} className="glass-card p-5 space-y-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-4 h-4 rounded-sm skeleton" />
+            <div className="h-3 w-20 skeleton rounded-full" />
+            <div className="h-3 w-48 skeleton rounded" />
           </div>
-          <div className="h-5 w-3/4 rounded bg-accent-blue/10 animate-pulse" />
-          <Skeleton lines={2} />
+          <div className="h-4.5 w-3/4 skeleton rounded" />
+          <div className="space-y-2">
+            <div className="h-3 w-full skeleton rounded" />
+            <div className="h-3 w-5/6 skeleton rounded" />
+          </div>
         </div>
       ))}
     </div>

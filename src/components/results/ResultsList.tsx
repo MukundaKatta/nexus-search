@@ -6,6 +6,7 @@ import ResultItem from './ResultItem';
 import ImageResults from './ImageResults';
 import { ResultSkeleton } from '@/components/ui/Skeleton';
 import SearchFilters from '@/components/search/SearchFilters';
+import { Search } from 'lucide-react';
 
 export default function ResultsList() {
   const { results, imageResults, totalCount, queryTime, isSearching, mode } =
@@ -21,9 +22,12 @@ export default function ResultsList() {
 
   if (results.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-text-muted text-lg">No results found</p>
-        <p className="text-text-muted text-sm mt-1">Try a different query or search mode</p>
+      <div className="text-center py-20">
+        <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-white/3 border border-border-subtle flex items-center justify-center">
+          <Search className="w-7 h-7 text-text-muted/30" />
+        </div>
+        <p className="text-text-secondary text-lg font-light">No results found</p>
+        <p className="text-text-muted/60 text-sm mt-1.5">Try a different query or search mode</p>
       </div>
     );
   }
@@ -31,15 +35,15 @@ export default function ResultsList() {
   return (
     <div>
       {/* Results info bar */}
-      <div className="flex items-center justify-between mb-4">
-        <p className="text-xs text-text-muted">
-          About {formatNumber(totalCount)} results ({queryTime} seconds)
+      <div className="flex items-center justify-between mb-5">
+        <p className="text-[11px] text-text-muted/50 font-mono tabular-nums" style={{ fontFamily: 'var(--font-jetbrains)' }}>
+          About {formatNumber(totalCount)} results ({queryTime}s)
         </p>
         <SearchFilters />
       </div>
 
       {/* Results list */}
-      <div className="space-y-4">
+      <div className="space-y-3.5">
         {results.map((result, index) => (
           <ResultItem key={result.id} result={result} index={index} />
         ))}
@@ -47,8 +51,8 @@ export default function ResultsList() {
 
       {/* Load more */}
       {results.length > 0 && results.length < totalCount && (
-        <div className="mt-8 text-center">
-          <button className="px-6 py-2.5 glass text-sm text-accent-blue hover:bg-accent-blue/10 transition-colors rounded-xl">
+        <div className="mt-10 text-center">
+          <button className="px-8 py-3 glass-card text-sm text-accent-blue hover:text-accent-cyan font-medium transition-all click-scale">
             Load More Results
           </button>
         </div>

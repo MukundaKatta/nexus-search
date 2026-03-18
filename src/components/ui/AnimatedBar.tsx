@@ -16,18 +16,21 @@ export default function AnimatedBar({
   className = '',
 }: AnimatedBarProps) {
   return (
-    <div className={`space-y-1 ${className}`}>
-      <div className="flex justify-between text-xs">
-        <span className="text-text-secondary">{label}</span>
-        <span style={{ color }}>{value}%</span>
+    <div className={`space-y-1.5 ${className}`}>
+      <div className="flex justify-between text-[11px]">
+        <span className="text-text-secondary/70 font-light">{label}</span>
+        <span className="font-mono tabular-nums font-medium" style={{ color, fontFamily: 'var(--font-jetbrains)' }}>{value}%</span>
       </div>
-      <div className="h-1.5 rounded-full bg-white/5 overflow-hidden">
+      <div className="h-1.5 rounded-full bg-white/4 overflow-hidden">
         <motion.div
           className="h-full rounded-full"
-          style={{ backgroundColor: color }}
+          style={{
+            background: `linear-gradient(90deg, ${color}, ${color}aa)`,
+            boxShadow: `0 0 8px ${color}30`,
+          }}
           initial={{ width: 0 }}
           animate={{ width: `${value}%` }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
         />
       </div>
     </div>

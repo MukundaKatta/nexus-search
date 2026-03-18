@@ -2,6 +2,7 @@
 
 import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 import { useSearchStore } from '@/store/searchStore';
 import { useSearch } from '@/hooks/useSearch';
 import { SearchMode } from '@/types';
@@ -21,7 +22,7 @@ import { useSearchHistory } from '@/hooks/useSearchHistory';
 
 function SearchContent() {
   const searchParams = useSearchParams();
-  const { setQuery, setMode, query } = useSearchStore();
+  const { setQuery, setMode } = useSearchStore();
   const { performSearch } = useSearch();
 
   useSearchHistory();
@@ -44,23 +45,33 @@ function SearchContent() {
         <Header />
       </Suspense>
 
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Main content */}
-          <div className="flex-1 min-w-0">
+          <motion.div
+            className="flex-1 min-w-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
+          >
             <AIAnswerCard />
             <ResultsList />
             <Pagination />
-          </div>
+          </motion.div>
 
           {/* Sidebar */}
-          <aside className="w-full lg:w-80 shrink-0 space-y-4">
+          <motion.aside
+            className="w-full lg:w-80 shrink-0 space-y-4"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
             <KnowledgePanel />
             <QuickInsights />
             <RelatedSearches />
             <SearchHistory />
             <TrendingTopics showAsList />
-          </aside>
+          </motion.aside>
         </div>
       </main>
 

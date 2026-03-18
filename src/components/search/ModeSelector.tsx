@@ -3,6 +3,7 @@
 import { useSearchStore } from '@/store/searchStore';
 import { SearchMode, ModeOption } from '@/types';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { motion } from 'framer-motion';
 
 const MODES: ModeOption[] = [
   { id: 'search', label: 'Search', icon: '🔍', description: 'Web results' },
@@ -32,19 +33,26 @@ export default function ModeSelector({ compact = false }: ModeSelectorProps) {
 
   if (compact) {
     return (
-      <div className="flex items-center gap-1 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-hide">
         {MODES.map((m) => (
           <button
             key={m.id}
             onClick={() => handleModeChange(m.id)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 text-xs rounded-lg whitespace-nowrap transition-all ${
+            className={`relative flex items-center gap-1.5 px-3.5 py-2 text-xs rounded-xl whitespace-nowrap transition-all duration-300 click-scale ${
               mode === m.id
-                ? 'bg-accent-blue/15 text-accent-blue border border-accent-blue/30'
-                : 'text-text-muted hover:text-text-secondary hover:bg-white/5'
+                ? 'text-accent-blue font-medium'
+                : 'text-text-muted hover:text-text-secondary'
             }`}
           >
-            <span>{m.icon}</span>
-            <span>{m.label}</span>
+            {mode === m.id && (
+              <motion.div
+                layoutId="mode-indicator-compact"
+                className="absolute inset-0 bg-accent-blue/8 border border-accent-blue/20 rounded-xl"
+                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+              />
+            )}
+            <span className="relative z-10">{m.icon}</span>
+            <span className="relative z-10">{m.label}</span>
           </button>
         ))}
       </div>
@@ -52,28 +60,36 @@ export default function ModeSelector({ compact = false }: ModeSelectorProps) {
   }
 
   return (
-    <div className="flex flex-wrap justify-center gap-3">
-      {MODES.map((m) => (
-        <button
+    <div className="flex flex-wrap justify-center gap-2.5">
+      {MODES.map((m, i) => (
+        <motion.button
           key={m.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5 + i * 0.05 }}
           onClick={() => handleModeChange(m.id)}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all ${
+          className={`relative flex items-center gap-2.5 px-5 py-3 rounded-2xl text-sm transition-all duration-300 click-scale ${
             mode === m.id
-              ? 'glass text-accent-blue border-accent-blue/30'
-              : 'text-text-muted hover:text-text-secondary hover:bg-white/5 border border-transparent'
+              ? 'text-accent-blue font-medium'
+              : 'text-text-muted hover:text-text-secondary'
           }`}
-          style={
-            mode === m.id
-              ? { boxShadow: '0 0 20px rgba(99, 179, 237, 0.1)' }
-              : undefined
-          }
         >
-          <span className="text-lg">{m.icon}</span>
-          <div className="text-left">
-            <div>{m.label}</div>
-            <div className="text-[10px] text-text-muted hidden sm:block">{m.description}</div>
+          {mode === m.id && (
+            <motion.div
+              layoutId="mode-indicator"
+              className="absolute inset-0 glass-card border-accent-blue/25 rounded-2xl"
+              style={{ boxShadow: '0 0 25px rgba(99, 179, 237, 0.06)' }}
+              transition={{ type: 'spring', stiffness: 400, damping: 30 }}
+            />
+          )}
+          <span className="relative z-10 text-lg">{m.icon}</span>
+          <div className="relative z-10 text-left">
+            <div className="leading-tight">{m.label}</div>
+            <div className={`text-[10px] hidden sm:block ${
+              mode === m.id ? 'text-accent-blue/50' : 'text-text-muted/60'
+            }`}>{m.description}</div>
           </div>
-        </button>
+        </motion.button>
       ))}
     </div>
   );
