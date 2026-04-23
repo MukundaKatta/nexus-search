@@ -14,6 +14,10 @@ function checkRateLimit(ip: string): boolean {
   const entry = rateLimiter.get(ip);
 
   if (!entry || now > entry.resetAt) {
+    // Evict all expired entries when creating a new one to prevent unbounded growth.
+    for (const [key, val] of rateLimiter) {
+      if (now > val.resetAt) rateLimiter.delete(key);
+    }
     rateLimiter.set(ip, { count: 1, resetAt: now + RATE_WINDOW });
     return true;
   }
